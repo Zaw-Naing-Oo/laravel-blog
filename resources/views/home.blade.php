@@ -33,7 +33,12 @@
                         <br>
                         <br>
 
-                    {{ $categories }}
+                        {{ Str::slug('Min ga lar pr','-') }}
+
+                        <br>
+                        <br>
+
+{{--                    {{ $categories }}--}}
 
                 </div>
             </div>
