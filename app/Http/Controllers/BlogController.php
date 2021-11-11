@@ -16,17 +16,22 @@ class BlogController extends Controller
         return view('welcome',compact('articles'));
     }
 
-    public function detail($id){
-        $article = Article::find($id);
-        return view('blog.detail',compact('article'));
+    public function detail($slug){
+        $article = Article::where('slug',$slug)->first(); // This method is the same  where take id in detail.In this way,That take slug in parameter instead of id.Slug,that can change url not to be the same
+        if(@empty($article)){
+            return abort(404);
+        }return view('blog.detail',compact('article'));
     }
 
     public function baseOnCategory($id){
         $articles = Article::when(isset(request()->search),function ($q){
             $search = request()->search;
             $q->where("title","LIKE","%$search%")->orwhere("description","LIKE","%$search%");
-        })->where("category_id",$id)->with(['user','category'])->latest("id")->paginate(8);
-//        return $articles;
+        })->where('id',$id)->with(['user','category'])->latest("id")->paginate(8);
+        if(@empty($articles)){
+            return abort(404);
+        }
+//        return $slug;
         return view('welcome',compact('articles'));
     }
 
