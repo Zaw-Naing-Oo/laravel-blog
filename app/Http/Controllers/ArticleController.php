@@ -104,8 +104,10 @@ class ArticleController extends Controller
         ]);
 
         $article->category_id = $request->category;
+        if($article->title != $request->title){
+            $article->slug = Str::slug($request->title)."-".uniqid();
+        }
         $article->title = $request->title;
-        $article->slug = Str::slug($request->title)."-".uniqid();
         $article->description = $request->description;
         $article->user_id = Auth::id();
         $article->update();
